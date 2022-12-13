@@ -19,8 +19,8 @@ func conectaComBancoDeDados() *sql.DB {
 
 type Produto struct {
 	Id              int
-	Nome, Descrição string
-	Preço           float64
+	Nome, Descricao string
+	Preco           float64
 	Quantidade      int
 }
 
@@ -54,13 +54,15 @@ func index(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			panic(err.Error())
 		}
+
 		p.Nome = nome
-		p.Descrição = descricao
-		p.Preço = preco
+		p.Descricao = descricao
+		p.Preco = preco
 		p.Quantidade = quantidade
 
 		produtos = append(produtos, p)
 	}
+
 	temp.ExecuteTemplate(w, "Index", produtos)
 	defer db.Close()
 }
