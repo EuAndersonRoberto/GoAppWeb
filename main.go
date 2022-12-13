@@ -1,28 +1,13 @@
 package main
 
 import (
-	"GoAppWeb/models"
+	"GoAppWeb/routes"
 	"net/http"
-	"text/template"
 )
-
-type Produto struct {
-	Id              int
-	Nome, Descricao string
-	Preco           float64
-	Quantidade      int
-}
-
-var temp = template.Must(template.ParseGlob("templates/*.html"))
 
 func main() {
 	//db := conectaComBancoDeDados()
 	//defer db.Close()
-	http.HandleFunc("/", index)
+	routes.CarregaRotas()
 	http.ListenAndServe(":8000", nil)
-}
-
-func index(w http.ResponseWriter, r *http.Request) {
-	todosOsProdutos := models.BuscaTodosOsProdutos()
-	temp.ExecuteTemplate(w, "Index", todosOsProdutos)
 }
