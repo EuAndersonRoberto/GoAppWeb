@@ -1,9 +1,7 @@
-package main
+package models
 
 import (
 	"GoAppWeb/db"
-	"net/http"
-	"text/template"
 )
 
 type Produto struct {
@@ -13,17 +11,7 @@ type Produto struct {
 	Quantidade      int
 }
 
-var temp = template.Must(template.ParseGlob("templates/*.html"))
-
-func main() {
-	//db := conectaComBancoDeDados()
-	//defer db.Close()
-	http.HandleFunc("/", index)
-	http.ListenAndServe(":8000", nil)
-}
-
-func index(w http.ResponseWriter, r *http.Request) {
-
+func BuscaTodosOsProdutos() []Produto {
 	db := db.ConectaComBancoDeDados()
 
 	selectDeTodosOsProdutos, err := db.Query("select * from produtos")
@@ -51,7 +39,6 @@ func index(w http.ResponseWriter, r *http.Request) {
 
 		produtos = append(produtos, p)
 	}
-
-	temp.ExecuteTemplate(w, "Index", produtos)
 	defer db.Close()
+	return produtos
 }
